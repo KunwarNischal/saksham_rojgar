@@ -1,0 +1,12 @@
+{
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/register/page": "app/(auth)/register/page.js",
+  "/employer/applicants/page": "app/employer/applicants/page.js",
+  "/employer/dashboard/page": "app/employer/dashboard/page.js",
+  "/employer/edit-job/[id]/page": "app/employer/edit-job/[id]/page.js",
+  "/employer/manage-jobs/page": "app/employer/manage-jobs/page.js",
+  "/employer/post-job/page": "app/employer/post-job/page.js",
+  "/employer/view-profile/[userId]/page": "app/employer/view-profile/[userId]/page.js",
+  "/jobs/page": "app/jobs/page.js",
+  "/page": "app/page.js"
+}
