@@ -23,7 +23,7 @@ export default function Textarea({
         onChange={onChange}
         required={required}
         rows={rows}
-        className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical ${
+        className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical bg-white text-gray-900 placeholder-gray-400 ${
           error ? 'border-red-500' : 'border-gray-300'
         }`}
       />
