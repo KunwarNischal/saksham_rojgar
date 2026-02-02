@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
-import Head from "next/head";
+import { useRouter } from "next/navigation";
+import JobCard from "@/components/JobCard";
 
 export default function Home() {
+  const router = useRouter();
   const [stats, setStats] = useState({
     activeJobs: 0,
     totalUsers: 0,
@@ -14,6 +16,10 @@ export default function Home() {
     totalApplications: 0
   });
   const [loading, setLoading] = useState(true);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
+  const [popularJobs, setPopularJobs] = useState([]);
+  const [jobsLoading, setJobsLoading] = useState(true);
 
   useEffect(() => {
     document.title = "Saksham Rojgar - Find Your Dream Job";
@@ -38,149 +44,343 @@ export default function Home() {
     fetchStats();
   }, []);
 
+  useEffect(() => {
+    const fetchPopularJobs = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs?limit=6`);
+        const data = await response.json();
+        
+        if (data.success) {
+          setPopularJobs(data.data.slice(0, 6));
+        }
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      } finally {
+        setJobsLoading(false);
+      }
+    };
+
+    fetchPopularJobs();
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (searchTitle) params.append('title', searchTitle);
+    if (searchLocation) params.append('location', searchLocation);
+    router.push(`/jobs?${params.toString()}`);
+  };
+
+  const popularSearches = [
+    "Frontend Dev",
+    "UX Designer",
+    "Product Manager",
+    "Data Scientist"
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-8 md:py-16">
-        {/* Header */}
-        <nav className="flex items-center justify-between mb-8 md:mb-16">
-          <Link href="/" className="flex items-center space-x-2 md:space-x-3">
-            <Image 
-              src="/logo.png" 
-              alt="Saksham Rojgar" 
-              width={40} 
-              height={40}
-              className="object-contain w-8 h-8 md:w-12 md:h-12"
-            />
-            <h1 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#45A28E] via-[#5D99C6] to-[#E67E22] bg-clip-text text-transparent">Saksham Rojgar</h1>
-          </Link>
-          <div className="flex space-x-2 md:space-x-4">
-            <Link 
-              href="/login"
-              className="px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold text-gray-700 hover:text-blue-600 border-2 border-gray-300 hover:border-blue-600 rounded-lg transition-all duration-300 hover:shadow-md"
-            >
-              Login
+      <div className="min-h-screen flex flex-col">
+        {/* Navigation Header */}
+        <nav className="container mx-auto px-4 py-4 md:py-6">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-2 md:space-x-3">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-lg md:text-xl">⚡</span>
+              </div>
+              <h1 className="text-xl md:text-2xl font-bold text-white">
+                Saksham<span className="text-blue-400">Rojgar</span>
+              </h1>
             </Link>
-            <Link 
-              href="/register"
-              className="px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
-            >
-              Register
-            </Link>
+
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/jobs" className="text-gray-300 hover:text-white transition-colors">Find Jobs</Link>
+              <Link href="/" className="text-gray-300 hover:text-white transition-colors">Companies</Link>
+              <Link href="/" className="text-gray-300 hover:text-white transition-colors">Salaries</Link>
+              <Link href="/" className="text-gray-300 hover:text-white transition-colors">Resources</Link>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <Link 
+                href="/login"
+                className="px-4 md:px-6 py-2 text-sm md:text-base font-semibold text-gray-300 hover:text-white transition-colors"
+              >
+                Log In
+              </Link>
+              <Link 
+                href="/register"
+                className="px-4 md:px-6 py-2 text-sm md:text-base font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         </nav>
 
         {/* Hero Content */}
-        <div className="text-center max-w-4xl mx-auto mb-8 md:mb-16">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
-            Find Your Dream Job Today
-          </h2>
-          <p className="text-base md:text-xl text-gray-600 mb-6 md:mb-8">
-            Connect with top employers and discover thousands of job opportunities
-          </p>
-          <Link 
-            href="/jobs"
-            className="inline-block px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white text-base md:text-lg rounded-md hover:bg-blue-700 transition-colors font-medium"
-          >
-            Browse Jobs
-          </Link>
-        </div>
-
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-16">
-          <div className="bg-white rounded-lg shadow-md p-6 md:p-8 text-center">
-            <div className="text-5xl mb-4">👥</div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">For Job Seekers</h3>
-            <p className="text-gray-600 mb-6">
-              Browse thousands of jobs, apply with ease, and track your applications
-            </p>
-            <Link 
-              href="/register"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Get Started →
-            </Link>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6 md:p-8 text-center">
-            <div className="text-5xl mb-4">🏢</div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">For Employers</h3>
-            <p className="text-gray-600 mb-6">
-              Post jobs, manage applications, and find the perfect candidates
-            </p>
-            <Link 
-              href="/register"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Post a Job →
-            </Link>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <div className="text-5xl mb-4">💼</div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">Easy Process</h3>
-            <p className="text-gray-600 mb-6">
-              Simple, streamlined application process with instant notifications
-            </p>
-            <Link 
-              href="/register"
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Start Applying →
-            </Link>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="bg-blue-600 rounded-lg shadow-xl p-6 md:p-12 text-white">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
-            <div>
-              <p className="text-2xl md:text-4xl font-bold mb-2">
-                {loading ? '...' : `${stats.activeJobs}+`}
-              </p>
-              <p className="text-xs md:text-base text-blue-100">Active Jobs</p>
+        <div className="flex-1 flex items-center justify-center px-4 py-8 md:py-0">
+          <div className="max-w-4xl mx-auto text-center w-full">
+            {/* Stats Badge */}
+            <div className="inline-flex items-center space-x-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8">
+              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+              <span className="text-sm text-gray-300">Over {loading ? '...' : `${stats.activeJobs}+`} jobs added today</span>
             </div>
-            <div>
-              <p className="text-2xl md:text-4xl font-bold mb-2">
-                {loading ? '...' : `${stats.totalUsers}+`}
-              </p>
-              <p className="text-xs md:text-base text-blue-100">Registered Users</p>
-            </div>
-            <div>
-              <p className="text-2xl md:text-4xl font-bold mb-2">
-                {loading ? '...' : `${stats.companies}+`}
-              </p>
-              <p className="text-xs md:text-base text-blue-100">Top Companies</p>
-            </div>
-            <div>
-              <p className="text-2xl md:text-4xl font-bold mb-2">
-                {loading ? '...' : `${stats.totalApplications}+`}
-              </p>
-              <p className="text-xs md:text-base text-blue-100">Applications</p>
+
+            {/* Hero Title */}
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              Find your next<br />
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                career defining
+              </span> moment.
+            </h2>
+
+            {/* Hero Subtitle */}
+            <p className="text-gray-400 text-base md:text-lg mb-10 max-w-2xl mx-auto">
+              Join the fastest-growing community of developers, designers, and creators. We connect top talent with the world's most innovative companies.
+            </p>
+
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="max-w-3xl mx-auto mb-10">
+              <div className="bg-white rounded-xl p-3 md:p-4 flex flex-col md:flex-row gap-3 md:gap-0 shadow-2xl">
+                <div className="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-gray-200">
+                  <svg className="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Job title, keywords, or company"
+                    value={searchTitle}
+                    onChange={(e) => setSearchTitle(e.target.value)}
+                    className="flex-1 outline-none text-gray-900 placeholder-gray-500 py-3 md:py-0 text-sm md:text-base"
+                  />
+                </div>
+                <div className="flex-1 flex items-center px-4 border-b md:border-b-0 md:border-r border-gray-200">
+                  <svg className="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="City, state, or remote"
+                    value={searchLocation}
+                    onChange={(e) => setSearchLocation(e.target.value)}
+                    className="flex-1 outline-none text-gray-900 placeholder-gray-500 py-3 md:py-0 text-sm md:text-base"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 md:px-8 py-3 rounded-lg transition-all duration-300 text-sm md:text-base"
+                >
+                  Search Jobs
+                </button>
+              </div>
+            </form>
+
+            {/* Popular Searches */}
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+              <span className="text-gray-400 text-sm">Popular:</span>
+              {popularSearches.map((search, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSearchTitle(search);
+                    setTimeout(() => {
+                      const params = new URLSearchParams();
+                      params.append('title', search);
+                      router.push(`/jobs?${params.toString()}`);
+                    }, 0);
+                  }}
+                  className="text-gray-300 hover:text-blue-400 text-sm md:text-base transition-colors cursor-pointer"
+                >
+                  {search}
+                </button>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* CTA */}
-        <div className="text-center mt-8 md:mt-16">
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4">
-            Ready to Get Started?
-          </h3>
-          <p className="text-base md:text-xl text-gray-600 mb-6 md:mb-8">
-            Join thousands of professionals finding their perfect match
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
-            <Link 
-              href="/register"
-              className="px-6 md:px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
-            >
-              Create Account
-            </Link>
-            <Link 
+      {/* Stats Section */}
+      {!loading && (
+        <div className="border-t border-slate-700 bg-slate-800/30 backdrop-blur">
+          <div className="container mx-auto px-4 py-12 md:py-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div>
+                <p className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  {stats.activeJobs}+
+                </p>
+                <p className="text-gray-400 text-sm md:text-base">Active Jobs</p>
+              </div>
+              <div>
+                <p className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  {stats.totalUsers}+
+                </p>
+                <p className="text-gray-400 text-sm md:text-base">Job Seekers</p>
+              </div>
+              <div>
+                <p className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  {stats.companies}+
+                </p>
+                <p className="text-gray-400 text-sm md:text-base">Top Companies</p>
+              </div>
+              <div>
+                <p className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  {stats.totalApplications}+
+                </p>
+                <p className="text-gray-400 text-sm md:text-base">Applications</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popular Jobs Section */}
+      <div className="bg-slate-900 py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Popular Jobs
+            </h3>
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+              Discover the most sought-after opportunities from top companies
+            </p>
+          </div>
+
+          {jobsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-slate-800 rounded-xl p-6 animate-pulse">
+                  <div className="h-6 bg-slate-700 rounded w-3/4 mb-4"></div>
+                  <div className="h-4 bg-slate-700 rounded w-1/2 mb-3"></div>
+                  <div className="h-4 bg-slate-700 rounded w-2/3"></div>
+                </div>
+              ))}
+            </div>
+          ) : popularJobs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {popularJobs.map((job) => (
+                <Link key={job._id} href={`/jobs/${job._id}`}>
+                  <div className="bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-blue-500/50 rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 h-full">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+                        <span className="text-white font-bold text-lg">
+                          {job.company?.charAt(0) || 'J'}
+                        </span>
+                      </div>
+                      <span className="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">
+                        {job.jobType || 'Full-time'}
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-semibold text-white mb-2 line-clamp-1">
+                      {job.title}
+                    </h4>
+                    <p className="text-gray-400 text-sm mb-3">
+                      {job.company}
+                    </p>
+                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        {job.location}
+                      </span>
+                      {job.salary && (
+                        <span className="text-green-400">
+                          {job.salary}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No jobs available at the moment.</p>
+            </div>
+          )}
+
+          <div className="text-center mt-10">
+            <Link
               href="/jobs"
-              className="px-6 md:px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-md hover:bg-blue-50 transition-colors font-medium"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300"
             >
-              View Jobs
+              View All Jobs
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works Section */}
+      <div className="bg-slate-800/50 py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              How It Works
+            </h3>
+            <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+              Get started in three simple steps
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white font-bold text-2xl">1</span>
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-3">Create Profile</h4>
+              <p className="text-gray-400">
+                Sign up and build your professional profile to showcase your skills and experience
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white font-bold text-2xl">2</span>
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-3">Find Jobs</h4>
+              <p className="text-gray-400">
+                Browse thousands of opportunities and find the perfect match for your career goals
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white font-bold text-2xl">3</span>
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-3">Apply & Get Hired</h4>
+              <p className="text-gray-400">
+                Apply with one click and track your applications until you land your dream job
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-16 md:py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Ready to Start Your Journey?
+          </h3>
+          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto mb-8">
+            Join thousands of professionals who have found their dream jobs through our platform
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link
+              href="/register"
+              className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300"
+            >
+              Create Free Account
+            </Link>
+            <Link
+              href="/jobs"
+              className="bg-transparent border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white/10 transition-all duration-300"
+            >
+              Browse Jobs
             </Link>
           </div>
         </div>
