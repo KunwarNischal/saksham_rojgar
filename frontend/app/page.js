@@ -419,36 +419,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-12 sm:py-16 md:py-20 overflow-hidden">
-        {/* Glow effects */}
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-400/20 rounded-full blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 px-2">
-            Ready to Start Your Journey?
-          </h3>
-          <p className="text-blue-100 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
-            Join thousands of professionals who have found their dream jobs through our platform
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-            <Link
-              href="/register"
-              className="bg-white text-blue-600 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base shadow-lg hover:shadow-xl"
-            >
-              Create Free Account
-            </Link>
-            <Link
-              href="/jobs"
-              className="bg-white/10 backdrop-blur-sm border-2 border-white/50 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-white/20 transition-all duration-300 text-sm sm:text-base"
-            >
-              Browse Jobs
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* Footer */}
       <Footer />
     </div>
