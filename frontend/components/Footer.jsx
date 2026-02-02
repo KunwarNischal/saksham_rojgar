@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -46,9 +47,13 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="col-span-2 sm:col-span-2 md:col-span-1 mb-4 sm:mb-0">
             <Link href="/" className="flex items-center space-x-2 mb-3 sm:mb-4">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-base sm:text-lg">⚡</span>
-              </div>
+              <Image 
+                src="/logo.png" 
+                alt="Saksham Rojgar" 
+                width={40} 
+                height={40}
+                className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
+              />
               <h3 className="text-lg sm:text-xl font-bold text-white">
                 Saksham<span className="text-blue-400">Rojgar</span>
               </h3>

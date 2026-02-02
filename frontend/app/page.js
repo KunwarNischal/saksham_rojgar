@@ -87,9 +87,13 @@ export default function Home() {
         <nav className="container mx-auto px-4 py-4 md:py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2 md:space-x-3">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-base sm:text-lg md:text-xl">⚡</span>
-              </div>
+              <Image 
+                src="/logo.png" 
+                alt="Saksham Rojgar" 
+                width={48} 
+                height={48}
+                className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain flex-shrink-0"
+              />
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
                 Saksham<span className="text-blue-400">Rojgar</span>
               </h1>
