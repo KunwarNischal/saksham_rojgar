@@ -80,16 +80,25 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-[#0a0f1a]">
       {/* Hero Section */}
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col relative overflow-hidden">
+        {/* Background Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1a] via-[#0f172a] to-[#1e1b4b] opacity-100"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[#0a0f1a]/50"></div>
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBtLTEgMGExIDEgMCAxIDAgMiAwYTEgMSAwIDEgMCAtMiAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIi8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
+        {/* Glow effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl"></div>
+        
         {/* Navigation Header */}
-        <nav className="container mx-auto px-4 py-4 md:py-6">
+        <nav className="relative z-10 container mx-auto px-4 py-4 md:py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2 md:space-x-3">
               <Image 
                 src="/logo.png" 
-                alt="Saksham Rojgar" 
+                alt="Saksham Rojgar\" 
                 width={48} 
                 height={48}
                 className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain flex-shrink-0"
@@ -117,7 +126,7 @@ export default function Home() {
               </Link>
               <Link 
                 href="/register"
-                className="px-3 sm:px-4 md:px-6 py-2 text-sm md:text-base font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="px-3 sm:px-4 md:px-6 py-2 text-sm md:text-base font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
               >
                 Sign Up
               </Link>
@@ -143,22 +152,22 @@ export default function Home() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="sm:hidden mt-4 pb-4 border-t border-slate-700 pt-4">
+            <div className="sm:hidden mt-4 pb-4 border-t border-white/10 pt-4">
               <div className="flex flex-col space-y-3">
                 <Link href="/jobs" className="text-gray-300 hover:text-white transition-colors py-2">Find Jobs</Link>
                 <Link href="/" className="text-gray-300 hover:text-white transition-colors py-2">Companies</Link>
                 <Link href="/" className="text-gray-300 hover:text-white transition-colors py-2">Salaries</Link>
                 <Link href="/" className="text-gray-300 hover:text-white transition-colors py-2">Resources</Link>
-                <div className="flex flex-col space-y-2 pt-3 border-t border-slate-700">
+                <div className="flex flex-col space-y-2 pt-3 border-t border-white/10">
                   <Link 
                     href="/login"
-                    className="px-4 py-2.5 text-center font-semibold text-gray-300 hover:text-white border border-slate-600 rounded-lg transition-colors"
+                    className="px-4 py-2.5 text-center font-semibold text-gray-300 hover:text-white border border-white/20 rounded-lg transition-colors"
                   >
                     Log In
                   </Link>
                   <Link 
                     href="/register"
-                    className="px-4 py-2.5 text-center font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300"
+                    className="px-4 py-2.5 text-center font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
                   >
                     Sign Up
                   </Link>
@@ -169,10 +178,10 @@ export default function Home() {
         </nav>
 
         {/* Hero Content */}
-        <div className="flex-1 flex items-center justify-center px-4 py-6 sm:py-8 md:py-0">
+        <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-6 sm:py-8 md:py-0">
           <div className="max-w-4xl mx-auto text-center w-full">
             {/* Stats Badge */}
-            <div className="inline-flex items-center space-x-2 bg-slate-800/50 border border-slate-700 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 mb-6 sm:mb-8">
+            <div className="inline-flex items-center space-x-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 mb-6 sm:mb-8">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span className="text-xs sm:text-sm text-gray-300">Over {loading ? '...' : `${stats.activeJobs}+`} jobs added today</span>
             </div>
@@ -180,7 +189,7 @@ export default function Home() {
             {/* Hero Title */}
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
               Find your next<br />
-              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
                 career defining
               </span> moment.
             </h2>
@@ -253,28 +262,28 @@ export default function Home() {
 
       {/* Stats Section */}
       {!loading && (
-        <div className="border-t border-slate-700 bg-slate-800/30 backdrop-blur">
+        <div className="border-t border-white/10 bg-[#0f172a]/80 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 text-center">
-              <div className="p-3 sm:p-4 rounded-lg bg-slate-800/30 sm:bg-transparent">
+              <div className="p-3 sm:p-4 rounded-lg bg-white/5 sm:bg-transparent">
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                   {stats.activeJobs}+
                 </p>
                 <p className="text-gray-400 text-xs sm:text-sm md:text-base">Active Jobs</p>
               </div>
-              <div className="p-3 sm:p-4 rounded-lg bg-slate-800/30 sm:bg-transparent">
+              <div className="p-3 sm:p-4 rounded-lg bg-white/5 sm:bg-transparent">
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                   {stats.totalUsers}+
                 </p>
                 <p className="text-gray-400 text-xs sm:text-sm md:text-base">Job Seekers</p>
               </div>
-              <div className="p-3 sm:p-4 rounded-lg bg-slate-800/30 sm:bg-transparent">
+              <div className="p-3 sm:p-4 rounded-lg bg-white/5 sm:bg-transparent">
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                   {stats.companies}+
                 </p>
                 <p className="text-gray-400 text-xs sm:text-sm md:text-base">Top Companies</p>
               </div>
-              <div className="p-3 sm:p-4 rounded-lg bg-slate-800/30 sm:bg-transparent">
+              <div className="p-3 sm:p-4 rounded-lg bg-white/5 sm:bg-transparent">
                 <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
                   {stats.totalApplications}+
                 </p>
@@ -286,7 +295,7 @@ export default function Home() {
       )}
 
       {/* Popular Jobs Section */}
-      <div className="bg-slate-900 py-12 sm:py-16 md:py-24">
+      <div className="bg-[#0a0f1a] py-12 sm:py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
@@ -300,10 +309,10 @@ export default function Home() {
           {jobsLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-slate-800 rounded-xl p-4 sm:p-5 md:p-6 animate-pulse">
-                  <div className="h-5 sm:h-6 bg-slate-700 rounded w-3/4 mb-3 sm:mb-4"></div>
-                  <div className="h-4 bg-slate-700 rounded w-1/2 mb-2 sm:mb-3"></div>
-                  <div className="h-4 bg-slate-700 rounded w-2/3"></div>
+                <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 sm:p-5 md:p-6 animate-pulse">
+                  <div className="h-5 sm:h-6 bg-white/10 rounded w-3/4 mb-3 sm:mb-4"></div>
+                  <div className="h-4 bg-white/10 rounded w-1/2 mb-2 sm:mb-3"></div>
+                  <div className="h-4 bg-white/10 rounded w-2/3"></div>
                 </div>
               ))}
             </div>
@@ -311,9 +320,9 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
               {popularJobs.map((job) => (
                 <Link key={job._id} href={`/jobs/${job._id}`}>
-                  <div className="bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-blue-500/50 rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 h-full active:scale-[0.98]">
+                  <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/50 rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 h-full active:scale-[0.98]">
                     <div className="flex items-start justify-between mb-3 sm:mb-4">
-                      <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg flex items-center justify-center">
                         <span className="text-white font-bold text-base sm:text-lg">
                           {job.company?.charAt(0) || 'J'}
                         </span>
@@ -367,7 +376,7 @@ export default function Home() {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-slate-800/50 py-12 sm:py-16 md:py-24">
+      <div className="bg-[#0f172a] py-12 sm:py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
@@ -379,8 +388,8 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-6 md:gap-8">
-            <div className="text-center p-4 sm:p-2">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
+            <div className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
                 <span className="text-white font-bold text-lg sm:text-xl md:text-2xl">1</span>
               </div>
               <h4 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">Create Profile</h4>
@@ -388,8 +397,8 @@ export default function Home() {
                 Sign up and build your professional profile to showcase your skills and experience
               </p>
             </div>
-            <div className="text-center p-4 sm:p-2">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
+            <div className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
                 <span className="text-white font-bold text-lg sm:text-xl md:text-2xl">2</span>
               </div>
               <h4 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">Find Jobs</h4>
@@ -397,8 +406,8 @@ export default function Home() {
                 Browse thousands of opportunities and find the perfect match for your career goals
               </p>
             </div>
-            <div className="text-center p-4 sm:p-2">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
+            <div className="text-center p-4 sm:p-6 bg-white/5 rounded-2xl border border-white/10">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 md:mb-6">
                 <span className="text-white font-bold text-lg sm:text-xl md:text-2xl">3</span>
               </div>
               <h4 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">Apply & Get Hired</h4>
@@ -411,8 +420,12 @@ export default function Home() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-12 sm:py-16 md:py-20">
-        <div className="container mx-auto px-4 text-center">
+      <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-12 sm:py-16 md:py-20 overflow-hidden">
+        {/* Glow effects */}
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-400/20 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 px-2">
             Ready to Start Your Journey?
           </h3>
@@ -422,13 +435,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
             <Link
               href="/register"
-              className="bg-white text-blue-600 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base"
+              className="bg-white text-blue-600 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 text-sm sm:text-base shadow-lg hover:shadow-xl"
             >
               Create Free Account
             </Link>
             <Link
               href="/jobs"
-              className="bg-transparent border-2 border-white text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-white/10 transition-all duration-300 text-sm sm:text-base"
+              className="bg-white/10 backdrop-blur-sm border-2 border-white/50 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:bg-white/20 transition-all duration-300 text-sm sm:text-base"
             >
               Browse Jobs
             </Link>
