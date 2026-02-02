@@ -40,7 +40,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-slate-950 text-gray-300">
+    <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-10 sm:py-12 md:py-16">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 mb-8 sm:mb-12">
@@ -67,7 +67,7 @@ export default function Footer() {
                 <a
                   key={index}
                   href={social.href}
-                  className="w-9 h-9 sm:w-10 sm:h-10 bg-slate-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors duration-300"
+                  className="w-9 h-9 sm:w-10 sm:h-10 bg-gray-800 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-colors duration-300"
                   aria-label={social.label}
                 >
                   <span className="text-white text-xs sm:text-sm font-bold">{social.icon}</span>
@@ -84,7 +84,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-400 text-xs sm:text-sm transition-colors"
+                    className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-400 text-xs sm:text-sm transition-colors"
+                    className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -118,7 +118,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-400 text-xs sm:text-sm transition-colors"
+                    className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -135,7 +135,7 @@ export default function Footer() {
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-400 text-xs sm:text-sm transition-colors"
+                    className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -146,7 +146,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 pt-6 sm:pt-8">
+        <div className="border-t border-gray-800 pt-6 sm:pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
             <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-left">
               © {currentYear} Saksham Rojgar. All rights reserved.
