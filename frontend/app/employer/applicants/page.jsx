@@ -20,10 +20,6 @@ export default function ApplicantsPage() {
     try {
       setLoading(true);
       const data = await applicationsAPI.getEmployerApplications();
-      console.log('Applications data:', data);
-      if (data.length > 0) {
-        console.log('First application jobSeekerId:', data[0].jobSeekerId);
-      }
       setApplications(data);
     } catch (error) {
       console.error('Error fetching applications:', error);

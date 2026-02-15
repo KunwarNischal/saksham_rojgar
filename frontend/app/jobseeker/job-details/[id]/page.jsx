@@ -36,7 +36,6 @@ export default function JobDetailPage({ params }) {
     try {
       setLoading(true);
       const response = await jobsAPI.getJobById(resolvedParams.id);
-      console.log("Job detail response:", response);
       setJob(response);
     } catch (err) {
       setError("Failed to load job details");

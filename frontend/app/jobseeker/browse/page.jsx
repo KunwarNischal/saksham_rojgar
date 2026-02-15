@@ -27,7 +27,6 @@ export default function BrowseJobsPage() {
     try {
       setLoading(true);
       const response = await jobsAPI.getAllJobs();
-      console.log("API Response:", response);
       setJobs(Array.isArray(response) ? response : []);
     } catch (err) {
       setError("Failed to load jobs. Please try again.");

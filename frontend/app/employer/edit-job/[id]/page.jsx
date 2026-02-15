@@ -38,11 +38,7 @@ export default function EditJobPage({ params }) {
     const fetchJob = async () => {
       try {
         setFetchingJob(true);
-        console.log('Starting fetch for jobId:', jobId);
         const job = await jobsAPI.getJobById(jobId);
-        console.log('Fetched job:', job);
-        console.log('Current user ID:', user?._id);
-        console.log('Job employerId:', job?.employerId);
         
         // Check if the user is the owner of this job
         // employerId might be an object if populated, or a string
@@ -69,7 +65,6 @@ export default function EditJobPage({ params }) {
               ? job.responsibilities.join('\n') 
               : job.responsibilities || ""
           };
-          console.log('Setting form data:', newFormData);
           setFormData(newFormData);
         }
       } catch (error) {
@@ -77,7 +72,6 @@ export default function EditJobPage({ params }) {
         addToast('Failed to load job details', 'error');
         // Don't redirect immediately, show the error
       } finally {
-        console.log('Setting fetchingJob to false');
         setFetchingJob(false);
       }
     };

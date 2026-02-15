@@ -25,7 +25,6 @@ export default function ManageJobsPage() {
     try {
       setLoading(true);
       const data = await jobsAPI.getEmployerJobs();
-      console.log('Employer jobs:', data);
       const jobs = Array.isArray(data) ? data : [];
       setEmployerJobs(jobs);
       const total = jobs.reduce((sum, job) => sum + (job.applicants || 0), 0);

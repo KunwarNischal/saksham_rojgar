@@ -69,12 +69,9 @@ function LoginContent() {
       const result = await login(formData.email, formData.password);
       
       if (result.success) {
-        console.log('Login successful, user data:', result.user);
-        console.log('User role:', result.user.role);
         addToast('Login successful! Welcome back.', 'success');
         // Redirect based on role
         const role = result.user.role;
-        console.log('Redirecting based on role:', role);
         if (role === "jobseeker") {
           router.push("/jobseeker/dashboard");
         } else if (role === "employer") {

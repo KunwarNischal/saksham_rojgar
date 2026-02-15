@@ -17,7 +17,6 @@ export default function AppliedJobsPage() {
     try {
       setLoading(true);
       const response = await applicationsAPI.getMyApplications();
-      console.log('Applications response:', response);
       setApplications(Array.isArray(response) ? response : []);
     } catch (error) {
       console.error('Error fetching applications:', error);

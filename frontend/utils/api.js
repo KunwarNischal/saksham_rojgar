@@ -173,6 +173,10 @@ export const adminAPI = {
     const queryString = new URLSearchParams(params).toString();
     return apiRequest(`/admin/companies${queryString ? `?${queryString}` : ''}`);
   },
+
+  deleteJob: (id) => apiRequest(`/admin/jobs/${id}`, {
+    method: 'DELETE',
+  }),
 };
 
 export default {

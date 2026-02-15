@@ -19,7 +19,6 @@ export default function JobSeekerDashboard() {
     try {
       setLoading(true);
       const response = await applicationsAPI.getMyApplications();
-      console.log('Dashboard applications:', response);
       setApplications(Array.isArray(response) ? response : []);
     } catch (err) {
       console.error('Failed to fetch applications:', err);

@@ -24,16 +24,12 @@ export default function ViewApplicantProfile({ params }) {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log('Fetching profile for userId:', userId);
         const profileData = await authAPI.getUserProfile(userId);
-        console.log('Received profile:', profileData);
         setProfile(profileData);
 
         // Fetch application details if applicationId is provided
         if (applicationId) {
-          console.log('Fetching application:', applicationId);
           const appData = await applicationsAPI.getApplicationById(applicationId);
-          console.log('Received application:', appData);
           setApplication(appData);
         }
       } catch (error) {

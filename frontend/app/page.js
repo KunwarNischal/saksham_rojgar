@@ -81,15 +81,6 @@ export default function Home() {
     return '/jobseeker/dashboard';
   };
 
-  const categories = [
-    { name: 'Technology', icon: '💻', count: 234, color: 'bg-blue-50 text-blue-600' },
-    { name: 'Healthcare', icon: '🏥', count: 156, color: 'bg-green-50 text-green-600' },
-    { name: 'Finance', icon: '💰', count: 189, color: 'bg-amber-50 text-amber-600' },
-    { name: 'Education', icon: '📚', count: 98, color: 'bg-purple-50 text-purple-600' },
-    { name: 'Marketing', icon: '📈', count: 145, color: 'bg-pink-50 text-pink-600' },
-    { name: 'Design', icon: '🎨', count: 112, color: 'bg-indigo-50 text-indigo-600' },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50/50">
       {/* Navigation */}
@@ -113,8 +104,6 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               <Link href="/jobs" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Find Jobs</Link>
-              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Companies</Link>
-              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Resources</Link>
             </div>
 
             {/* Desktop Auth Buttons */}
@@ -169,8 +158,6 @@ export default function Home() {
             <div className="lg:hidden pb-4 border-t border-gray-100 pt-4">
               <div className="flex flex-col space-y-3">
                 <Link href="/jobs" className="text-gray-600 hover:text-blue-600 transition-colors py-2 font-medium">Find Jobs</Link>
-                <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors py-2 font-medium">Companies</Link>
-                <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors py-2 font-medium">Resources</Link>
                 <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100">
                   {isLoggedIn ? (
                     <Link 

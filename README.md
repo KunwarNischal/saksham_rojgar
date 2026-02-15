@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Saksham Rojgar - Job Portal
+
+A full-stack job portal web application connecting job seekers with employers. Built as an internship project using modern web technologies.
+
+## Features
+
+### Job Seekers
+- Browse and search jobs by title, location, and category
+- Apply to jobs with resume upload
+- Track application status (pending, reviewed, shortlisted, rejected)
+- Manage profile and view application history
+
+### Employers
+- Post, edit, and manage job listings
+- Review applicants and update application status
+- View applicant profiles and download resumes
+- Dashboard with job and application statistics
+
+### Admin Panel
+- User management (view, delete users)
+- Job oversight (view, delete any job)
+- Company statistics and analytics
+- Platform-wide dashboard with metrics
+
+## Tech Stack
+
+| Layer      | Technology                          |
+| ---------- | ----------------------------------- |
+| Frontend   | Next.js 14, React, Tailwind CSS     |
+| Backend    | Express.js, Node.js                 |
+| Database   | MongoDB Atlas, Mongoose             |
+| Auth       | JWT (JSON Web Tokens), bcrypt       |
+| Uploads    | Multer (local disk storage)         |
+| Validation | express-validator                   |
+| Security   | Helmet, express-rate-limit, CORS    |
+
+## Project Structure
+
+```
+saksham_rojgar/
+├── backend/          # Express.js REST API
+│   ├── config/       # Database & service configuration
+│   ├── controllers/  # Route handler logic
+│   ├── middleware/    # Auth, role check, file upload
+│   ├── models/       # Mongoose schemas (User, Job, Application)
+│   ├── routes/       # API route definitions
+│   └── scripts/      # Database seed scripts
+├── frontend/         # Next.js application
+│   ├── app/          # App router pages & layouts
+│   ├── components/   # Reusable UI components
+│   ├── context/      # React context (AuthContext)
+│   └── utils/        # API client utilities
+└── package.json      # Root scripts (concurrently)
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas account (or local MongoDB)
 
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd saksham_rojgar
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Set up environment variables
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Copy the example files and fill in your values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.local.example frontend/.env.local
+```
 
-## Learn More
+### 3. Install dependencies
+```bash
+npm install        # installs root + concurrently
+cd backend && npm install
+cd ../frontend && npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Seed the database (optional)
+```bash
+cd backend
+node scripts/seedDefaultAdmin.js   # creates default admin user
+node scripts/seedData.js           # adds sample jobs & users
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 5. Run the application
+```bash
+# From root directory - starts both frontend & backend
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## API Endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Method | Endpoint                       | Description            | Auth     |
+| ------ | ------------------------------ | ---------------------- | -------- |
+| POST   | `/api/auth/register`           | Register user          | No       |
+| POST   | `/api/auth/login`              | Login                  | No       |
+| GET    | `/api/jobs`                    | List all jobs          | No       |
+| GET    | `/api/jobs/:id`                | Get job details        | No       |
+| POST   | `/api/jobs`                    | Create job             | Employer |
+| PUT    | `/api/jobs/:id`                | Update job             | Employer |
+| DELETE | `/api/jobs/:id`                | Delete job             | Employer |
+| POST   | `/api/applications/:jobId`     | Apply to job           | Seeker   |
+| GET    | `/api/admin/stats`             | Dashboard stats        | Admin    |
+| GET    | `/api/admin/users`             | List users             | Admin    |
+| GET    | `/api/admin/jobs`              | List all jobs          | Admin    |
+| GET    | `/api/admin/companies`         | Company statistics     | Admin    |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Default Credentials
+
+After running the seed script:
+- **Admin**: admin@sakshamrojgar.com / admin123
+- **Test Employer**: Register a new account with role "employer"
+- **Test Job Seeker**: Register a new account with role "jobseeker"
+
+## License
+
+This project was built for educational/internship purposes.
