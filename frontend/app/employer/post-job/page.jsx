@@ -51,7 +51,7 @@ export default function PostJobPage() {
       await jobsAPI.createJob(formData);
       router.push("/employer/manage-jobs");
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to post job');
+      setError(error.message || 'Failed to post job');
     } finally {
       setLoading(false);
     }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { use } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Button from "@/components/Button";
@@ -11,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/components/Toast";
 
 export default function JobDetailPage({ params }) {
-  const resolvedParams = use(params);
+  const resolvedParams = params;
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
   const { addToast } = useToast();
@@ -256,12 +255,6 @@ export default function JobDetailPage({ params }) {
                   <p className="text-sm text-gray-500 mb-1">Applicants</p>
                   <p className="font-medium text-gray-900">{job.applicants} people applied</p>
                 </div>
-              </div>
-
-              <div className="mt-6 pt-6 border-t">
-                <Button onClick={handleApplyClick} fullWidth>
-                  Apply Now
-                </Button>
               </div>
             </div>
           </div>

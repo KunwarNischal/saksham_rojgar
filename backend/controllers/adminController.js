@@ -234,10 +234,85 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get all companies (employers) with job/application stats
+ * @route   GET /api/admin/companies
+ * @access  Private (Admin only)
+ */
+const getAllCompanies = async (req, res) => {
+  try {
+    const { search, page = 1, limit = 10 } = req.query;
+
+    // Build query for employer users
+    let query = { role: 'employer' };
+    if (search) {
+      query.$or = [
+        { company: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const employers = await User.find(query)
+      .select('-password')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const total = await User.countDocuments(query);
+
+    // Get job counts and application counts for each employer
+    const companiesData = await Promise.all(
+      employers.map(async (employer) => {
+        const jobCount = await Job.countDocuments({ employerId: employer._id });
+        const activeJobCount = await Job.countDocuments({ employerId: employer._id, status: 'active' });
+        const jobs = await Job.find({ employerId: employer._id }).select('_id');
+        const jobIds = jobs.map(j => j._id);
+        const applicationCount = jobIds.length > 0 
+          ? await Application.countDocuments({ jobId: { $in: jobIds } })
+          : 0;
+
+        return {
+          _id: employer._id,
+          name: employer.name,
+          email: employer.email,
+          company: employer.company || 'N/A',
+          phone: employer.phone || '',
+          location: employer.location || '',
+          verified: employer.verified || false,
+          createdAt: employer.createdAt,
+          totalJobs: jobCount,
+          activeJobs: activeJobCount,
+          totalApplications: applicationCount
+        };
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      count: companiesData.length,
+      total,
+      page: parseInt(page),
+      totalPages: Math.ceil(total / parseInt(limit)),
+      data: companiesData
+    });
+  } catch (error) {
+    console.error('Get all companies error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error fetching companies',
+      error: error.message
+    });
+  }
+};
+
 export {
   getAllUsers,
   getUserById,
   deleteUser,
   getAllJobsAdmin,
-  getDashboardStats
+  getDashboardStats,
+  getAllCompanies
 };

@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { use } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authAPI, applicationsAPI } from "@/utils/api";
 import { useToast } from "@/components/Toast";
 
 export default function ViewApplicantProfile({ params }) {
-  const resolvedParams = use(params);
+  const resolvedParams = params;
   const userId = resolvedParams.userId;
   const searchParams = useSearchParams();
   const applicationId = searchParams.get('applicationId');

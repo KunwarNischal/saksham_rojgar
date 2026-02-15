@@ -7,7 +7,8 @@ import {
   getUserById,
   deleteUser,
   getAllJobsAdmin,
-  getDashboardStats
+  getDashboardStats,
+  getAllCompanies
 } from '../controllers/adminController.js';
 
 /**
@@ -44,5 +45,12 @@ router.delete('/users/:id', protect, authorize('admin'), deleteUser);
  * @access  Private (Admin only)
  */
 router.get('/jobs', protect, authorize('admin'), getAllJobsAdmin);
+
+/**
+ * @route   GET /api/admin/companies
+ * @desc    Get all companies (employers) with stats
+ * @access  Private (Admin only)
+ */
+router.get('/companies', protect, authorize('admin'), getAllCompanies);
 
 export default router;

@@ -31,8 +31,16 @@ const createJob = async (req, res) => {
     const job = await Job.create({
       title,
       description,
-      requirements: requirements || [],
-      responsibilities: responsibilities || [],
+      requirements: Array.isArray(requirements)
+        ? requirements
+        : typeof requirements === 'string'
+          ? requirements.split('\n').map(r => r.replace(/^[-•*]\s*/, '').trim()).filter(Boolean)
+          : [],
+      responsibilities: Array.isArray(responsibilities)
+        ? responsibilities
+        : typeof responsibilities === 'string'
+          ? responsibilities.split('\n').map(r => r.replace(/^[-•*]\s*/, '').trim()).filter(Boolean)
+          : [],
       company,
       location,
       jobType: jobType || 'Full-time',
@@ -47,6 +55,16 @@ const createJob = async (req, res) => {
     });
   } catch (error) {
     console.error('Create job error:', error);
+
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: messages.join('. ')
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Server error creating job',

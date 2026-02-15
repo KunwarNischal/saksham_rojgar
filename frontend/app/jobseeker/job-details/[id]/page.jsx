@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { use } from "react";
 import Button from "@/components/Button";
 import { jobsAPI, applicationsAPI } from "@/utils/api";
 import { useAuth } from "@/context/AuthContext";
 
 export default function JobDetailPage({ params }) {
-  const resolvedParams = use(params);
+  const resolvedParams = params;
   const router = useRouter();
   const { user } = useAuth();
   const [job, setJob] = useState(null);

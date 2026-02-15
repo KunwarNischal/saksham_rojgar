@@ -1,29 +1,6 @@
 import Application from '../models/Application.js';
 import Job from '../models/Job.js';
 import User from '../models/User.js';
-import cloudinary from '../config/cloudinary.js';
-import { Readable } from 'stream';
-
-/**
- * Helper function to upload file to Cloudinary
- */
-const uploadToCloudinary = (fileBuffer, folder, resourceType = 'auto') => {
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: folder,
-        resource_type: resourceType
-      },
-      (error, result) => {
-        if (error) reject(error);
-        else resolve(result);
-      }
-    );
-
-    const readableStream = Readable.from(fileBuffer);
-    readableStream.pipe(uploadStream);
-  });
-};
 
 /**
  * @desc    Apply for a job
@@ -76,24 +53,12 @@ const applyForJob = async (req, res) => {
     let resumeUrl = req.user.resume; // Use existing resume if no new file
 
     if (req.file) {
-      try {
-        const result = await uploadToCloudinary(
-          req.file.buffer,
-          'job-portal/resumes',
-          'raw' // For PDF files
-        );
-        resumeUrl = result.secure_url;
+      // Build a URL for the locally stored file
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      resumeUrl = `${baseUrl}/uploads/resumes/${req.file.filename}`;
 
-        // Update user's resume URL
-        await User.findByIdAndUpdate(req.user._id, { resume: resumeUrl });
-      } catch (uploadError) {
-        console.error('Cloudinary upload error:', uploadError);
-        return res.status(500).json({
-          success: false,
-          message: 'Error uploading resume',
-          error: uploadError.message
-        });
-      }
+      // Update user's resume URL
+      await User.findByIdAndUpdate(req.user._id, { resume: resumeUrl });
     }
 
     // Check if user has a resume
@@ -137,10 +102,26 @@ const applyForJob = async (req, res) => {
       });
     }
 
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: messages.join('. ')
+      });
+    }
+
+    // Handle CastError (invalid ObjectId)
+    if (error.name === 'CastError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid job ID format'
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Server error submitting application',
-      error: error.message
+      message: error.message || 'Server error submitting application'
     });
   }
 };
@@ -323,17 +304,14 @@ const uploadResume = async (req, res) => {
       });
     }
 
-    // Upload to Cloudinary
-    const result = await uploadToCloudinary(
-      req.file.buffer,
-      'job-portal/resumes',
-      'raw'
-    );
+    // Build a URL for the locally stored file
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const resumeUrl = `${baseUrl}/uploads/resumes/${req.file.filename}`;
 
     // Update user's resume URL
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { resume: result.secure_url },
+      { resume: resumeUrl },
       { new: true }
     );
 
@@ -341,7 +319,7 @@ const uploadResume = async (req, res) => {
       success: true,
       message: 'Resume uploaded successfully',
       data: {
-        resumeUrl: result.secure_url
+        resumeUrl
       }
     });
   } catch (error) {

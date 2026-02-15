@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { use } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Textarea from "@/components/Textarea";
@@ -11,7 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/components/Toast";
 
 export default function ApplyJobPage({ params }) {
-  const resolvedParams = use(params);
+  const resolvedParams = params;
   const router = useRouter();
   const { user } = useAuth();
   const { addToast } = useToast();

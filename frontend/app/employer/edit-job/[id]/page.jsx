@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { use } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { jobsAPI } from "@/utils/api";
 import Input from "@/components/Input";
@@ -12,7 +11,7 @@ import Button from "@/components/Button";
 import { useToast } from "@/components/Toast";
 
 export default function EditJobPage({ params }) {
-  const resolvedParams = use(params);
+  const resolvedParams = params;
   const jobId = resolvedParams.id;
   const router = useRouter();
   const { user } = useAuth();

@@ -168,6 +168,11 @@ export const adminAPI = {
     const queryString = new URLSearchParams(params).toString();
     return apiRequest(`/admin/jobs${queryString ? `?${queryString}` : ''}`);
   },
+
+  getAllCompanies: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return apiRequest(`/admin/companies${queryString ? `?${queryString}` : ''}`);
+  },
 };
 
 export default {
